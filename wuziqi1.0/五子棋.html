@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>五子棋</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 1200px;
+            background-color: #CCCCCC;
+        }
+        .t-box{
+            width: 800px;
+            height: 800px;
+            margin: 100px auto;
+        }
+        table {
+            width: 800px;
+            height: 800px;
+            margin: 100px auto;
+            box-shadow: 0 0 20px #000;
+            animation: move 3s linear infinite alternate;
+        }
+
+
+        td {
+            position: relative;
+        }
+
+        .spanBefore {
+            display: block;
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            background-color: transparent;
+            position: absolute;
+            top: -15px;
+            left: -15px;
+
+        }
+
+        .lastTrBot-i {
+            display: block;
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            background-color: transparent;
+            position: absolute;
+            top: 37px;
+            left: -15px;
+        }
+
+        .everTrLastTd-S {
+            display: block;
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            background-color: transparent;
+            position: absolute;
+            top: -15px;
+            left: 37px;
+
+        }
+
+        em {
+            display: block;
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            background-color: transparent;
+            position: absolute;
+            top: 37px;
+            left: 37px;
+        }
+
+        .black {
+            box-shadow: 0 0 40px red;
+            background-color: #000000;
+            /*transition: all 1s linear;*/
+        }
+        .blackHover{
+            box-shadow: 0 0 40px red;
+            background-color: #000000;
+            opacity: 0.5;
+            animation: look 1s linear infinite alternate;
+        }
+        .white {
+            background-color: #fff;
+            box-shadow: 0 0 40px purple;
+            /*transition: all 1s linear;*/
+            /*animation: move 2s linear infinite alternate;*/
+        }
+        .whiteHover{
+            box-shadow: 0 0 40px purple;
+            background-color: #FFFFFF;
+            opacity: 0.5;
+            animation: look 1s linear infinite alternate;
+        }
+        .winBox{
+            width: 500px;
+            height: 400px;
+            background-color: #999395;
+            position: absolute;
+            border-radius: 100px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-70%);
+            text-align: center;
+            line-height: 400px;
+            font-family: 微软雅黑;
+            font-size: 100px;
+            color: royalblue;
+            opacity: 0.9;
+            display: none;
+            z-index: 2;
+            animation: winBoxMove 1.5s ease;
+        }
+
+        .fugai{
+            width: 100%;
+            height: 1200px;
+            background-color: rgba(0,0,0,0.3);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            display: none;
+        }
+
+        .btn{
+            width: 100px;
+            height: 50px;
+            background-color: #f0d266;
+            font-size: 18px;
+            line-height: 50px;
+            border-radius: 20px;
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+        }
+        .btn:hover{
+            box-shadow: 0 0 20px #c0dce9;
+        }
+
+        @keyframes move {
+            from {
+                transform: scale(0.98, 0.98);
+            }
+            to {
+                transform: scale(1, 1);
+            }
+        }
+        @keyframes look {
+            from{
+                transform: scale(1,1);
+            }
+            to{
+                transform: scale(1.5,1.5);
+            }
+        }
+        @keyframes winBoxMove {
+            from{
+                transform: scale(0.5,0.5) rotateY(90deg) translate(-50%,-70%) skewX(40deg);
+            }
+            to{
+                transform: scale(1,1) rotateY(0deg) translate(-50%,-70%) skewX(0deg);
+            }
+        }
+
+    </style>
+</head>
+<body>
+<div class="t-box">
+    <table border="1" cellspacing="0" cellpadding="0">
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><em></em></td>
+        </tr>
+    </table>
+</div>
+
+<div class="winBox">
+    <p></p>
+    <div class="btn">再来一局</div>
+</div>
+<div class="fugai"></div>
+</body>
+<script src="js/jquery-1.12.4.js"></script>
+<script src="js/Down.js"></script>
+<script src="./js/easyComputer.js"></script>
+</html>
